@@ -131,13 +131,13 @@ function twitter_filter_info() {
   $filters['twitter_username'] = array(
     'title' => t('Twitter @username converter'),
     'description' => t('Converts Twitter-style @usernames into links to Twitter account pages.'),
-    'process callback' => 'twitter_link_filter',
+    'process callback' => 'twitter_link_filter_username',
     'tips callback' => 'twitter_filter_tip_username',
   );
   $filters['twitter_hashtag'] = array(
     'title' => t('Twitter #hashtag converter'),
     'description' => t('Converts Twitter-style #hashtags into links to hashtags.org.'),
-    'process callback' => 'twitter_link_filter',
+    'process callback' => 'twitter_link_filter_hashtag',
     'tips callback' => 'twitter_filter_tip_hashtag',
   );
   return $filters;
@@ -155,6 +155,20 @@ function twitter_filter_tip_username($format, $long = FALSE) {
  */
 function twitter_filter_tip_hashtag($format, $long = FALSE) {
   return t('Twitter-style #hashtags are linked to !url.', array('!url' => '<a href="http://search.twitter.com/">search.twitter.com</a>'));
+}
+
+/**
+ * Implements hook_filter_PROCESS_filter().
+ */
+function twitter_link_filter_username($text, $filter, $format, $langcode, $cache, $cache_id) {
+  return twitter_link_filter($text); 
+}
+
+/**
+ * Implements hook_filter_PROCESS_filter().
+ */
+function twitter_link_filter_hashtag($text, $filter, $format, $langcode, $cache, $cache_id) {
+  return twitter_link_filter($text, '#'); 
 }
 
 /**
